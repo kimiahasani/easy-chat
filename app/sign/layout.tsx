@@ -1,5 +1,6 @@
 'use client';
 
+import Logo from '@/commonComponents/login/Logo';
 import { RootState } from '@/types/rtkTypes';
 import { Provider, useSelector } from 'react-redux';
 
@@ -16,7 +17,7 @@ export default function LayoutSign({
 
    return (
       <>
-         {/* <Provider store={store}> */}
+         <Logo/>
          {children}
          {signFlag ? signup : login}
          {/* </Provider> */}

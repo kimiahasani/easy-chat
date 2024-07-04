@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { signSlice } from './slices/signSlice';
+import { signUpUPApi } from './queries/sign/signUp';
 
 export const store = configureStore({
    reducer: {
@@ -7,6 +8,7 @@ export const store = configureStore({
       // users : userSlice.reducer
       // ...
       // [nameOfApiOne.reducerPath]: nameOfApiOne.reducer, //for RTK-Query
+      [signUpUPApi.reducerPath]: signUpUPApi.reducer,
       // ...
    },
 

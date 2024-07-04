@@ -1,4 +1,5 @@
 'use client';
+
 import { store } from '@/rtk/store';
 import { Provider } from 'react-redux';
 
