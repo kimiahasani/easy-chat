@@ -1,29 +1,38 @@
 'use client';
 
-import { useSignUpMutation } from '@/rtk/queries/sign/signUp';
-import { RootState } from '@/types/rtkTypes';
+import { useAddOneUserMutation } from '@/rtk/queries/sign/sign';
+import { BtnFillClasses } from '@/styles/commonClasses';
+import { RootState } from '@/types/rtkType';
 import { useSelector } from 'react-redux';
 
 export default function BtnSignUpSubmit() {
    const signUpData = useSelector((st: RootState) => st.sign);
-   const [signUp, { isError, isLoading, isSuccess }] = useSignUpMutation();
-   const bg = isSuccess ? ' bg-green-600' : 'bg-blue-600';
-   const classes = `w-full ${bg} text-white py-2 rounded mt-6 hover:bg-blue-700`;
+   const userData = useSelector((st: RootState) => st.users);
 
-   const sendDataTo = () => {
+   const [addOneUser, { isError, isLoading, isSuccess }] = useAddOneUserMutation();
+
+   const classes = isSuccess
+      ? BtnFillClasses.replace('bg-blue-600', 'bg-green-600')
+      : BtnFillClasses;
+
+   const sendDataTo = async () => {
+      if (isLoading) return;
+
+      console.log('triggered');
       const bodyData = {
          email: signUpData.inputEmail,
          username: signUpData.inputUsername,
          pass: signUpData.inputPass,
       };
-      signUp(bodyData);
+      addOneUser(bodyData);
    };
 
    return (
       <>
-         <button className={classes} onClick={() => !isLoading && sendDataTo}>
+         <button className={classes} onClick={sendDataTo}>
             {isLoading ? 'sending...' : 'Sign Up'}
          </button>
+         <p>{userData.token}</p>
          {isError && <p>Error To sending Data</p>}
       </>
    );

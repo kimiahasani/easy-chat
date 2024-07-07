@@ -1,18 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { signSlice } from './slices/signSlice';
-import { signUpUPApi } from './queries/sign/signUp';
+
+import { userSlice } from './slices/userSlise';
+import { signRtkApi } from './queries/sign/sign';
 
 export const store = configureStore({
    reducer: {
       sign: signSlice.reducer,
+      users: userSlice.reducer,
       // users : userSlice.reducer
       // ...
       // [nameOfApiOne.reducerPath]: nameOfApiOne.reducer, //for RTK-Query
-      [signUpUPApi.reducerPath]: signUpUPApi.reducer,
+      [signRtkApi.reducerPath]: signRtkApi.reducer,
       // ...
    },
 
-   middleware: (gDM) => gDM(), //for RTK-Query:  gDM().concat(nameOfApiOne.middleware, nameOfApiTwo.middleware),
+   middleware: (gDM) => gDM().concat(signRtkApi.middleware), //for RTK-Query:  gDM().concat(nameOfApiOne.middleware, nameOfApiTwo.middleware),
 });
 
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}

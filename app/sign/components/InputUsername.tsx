@@ -2,6 +2,7 @@
 
 import { actInputUsername } from '@/rtk/slices/signSlice';
 import { patcher } from '@/rtk/store';
+import { LabelInputClasses, inputClasses } from '@/styles/commonClasses';
 import { ChangeEvent } from 'react';
 
 export default function InputUsername() {
@@ -11,13 +12,14 @@ export default function InputUsername() {
    };
 
    return (
-      <>
+      <div>
+         <label className={LabelInputClasses}>Username</label>
          <input
             type='text'
             placeholder='Username'
-            className='w-full p-2 border border-gray-300 rounded'
+            className={inputClasses}
             onChange={getUsername}
          />
-      </>
+      </div>
    );
 }

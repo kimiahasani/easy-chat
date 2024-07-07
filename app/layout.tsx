@@ -1,12 +1,8 @@
-// 'use client';
-
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
 import RtkProvider from '@/commonComponents/RtkProvider';
 import MainHeader from './components/MainHeader';
-// import { Provider } from 'react-redux';
-// import { store } from '@/rtk/store';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,14 +19,17 @@ export default function RootLayout({
 }) {
    return (
       <html lang='en'>
-         {/* <Provider store={store}> */}
          <RtkProvider>
-            <body className={inter.className + ' container mx-auto bg-gradient-to-br from-orange-300 via-orange-400 to-red-400 min-h-screen' }>
+            <body
+               className={
+                  inter.className +
+                  ' container mx-auto bg-gradient-to-br from-orange-300 via-orange-400 to-red-400 min-h-screen'
+               }
+            >
                <MainHeader />
                {children}
             </body>
          </RtkProvider>
-         {/* </Provider> */}
       </html>
    );
 }

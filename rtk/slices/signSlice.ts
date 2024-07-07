@@ -1,5 +1,4 @@
-
-import { SignType } from '@/types/rtkTypes';
+import { SignType } from '@/types/rtkType';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {

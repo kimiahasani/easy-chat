@@ -1,5 +1,4 @@
-
-import Logo from '@/commonComponents/login/Logo';
+import Logo from '@/commonComponents/Logo';
 import Menu from './Menu';
 
 export default function MainHeader() {

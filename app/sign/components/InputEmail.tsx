@@ -2,6 +2,7 @@
 
 import { actInputEmail } from '@/rtk/slices/signSlice';
 import { patcher } from '@/rtk/store';
+import { LabelInputClasses, inputClasses } from '@/styles/commonClasses';
 import { ChangeEvent } from 'react';
 
 export default function InputEmail() {
@@ -11,13 +12,14 @@ export default function InputEmail() {
    };
 
    return (
-      <>
+      <div>
+         <label className={LabelInputClasses}>Email</label>
          <input
             type='email'
             placeholder='Email'
-            className='w-full p-2 border border-gray-300 rounded'
+            className={inputClasses}
             onChange={getEmail}
          />
-      </>
+      </div>
    );
 }

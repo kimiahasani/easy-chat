@@ -1,5 +1,4 @@
-
-import { UserType } from '@/types/rtkTypes';
+import { UserType } from '@/types/rtkType';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -9,7 +8,6 @@ const initialState = {
    id: '',
    token: '',
    refToken: '',
-   name:''
 } as UserType;
 
 export const userSlice = createSlice({
@@ -32,10 +30,6 @@ export const userSlice = createSlice({
       actRefToken: (state, { payload }) => {
          state.refToken = payload;
       },
-      actName : (state, { payload }) => {
-         state.name = payload;
-      },
-   
       actAddUser: (state, { payload }) => {
          state.email = payload.email;
          state.pass = payload.pass;
@@ -44,16 +38,8 @@ export const userSlice = createSlice({
          state.refToken = payload.refToken;
          state.id = payload.id;
       },
-      actDeleteUser:(state, { payload }) => {
-         state.email ="";
-         state.pass = "";
-         state.username ="";
-         state.token = "";
-         state.refToken = "";
-         state.id = "";
-      },
-      
-}});
+   },
+});
 
 export const {
    actUserEmail,

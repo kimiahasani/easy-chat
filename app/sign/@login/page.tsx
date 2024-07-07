@@ -1,7 +1,9 @@
-import LogInForm from "../components/LogInForm";
+import LogInForm from '../components/LogInForm';
 
-export default function Login(){
-    return <>
-    <LogInForm/>
-    </>
+export default function Login() {
+   return (
+      <>
+         <LogInForm />
+      </>
+   );
 }

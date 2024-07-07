@@ -2,6 +2,7 @@
 
 import { actInputConfirmEmail } from '@/rtk/slices/signSlice';
 import { patcher } from '@/rtk/store';
+import { LabelInputClasses, inputClasses } from '@/styles/commonClasses';
 import { ChangeEvent } from 'react';
 
 export default function InputConfirmEmail() {
@@ -11,13 +12,14 @@ export default function InputConfirmEmail() {
    };
 
    return (
-      <>
+      <div>
+         <label className={LabelInputClasses}>Confirm email</label>
          <input
             type='email'
             placeholder='Confirm email'
-            className='w-full p-2 border border-gray-300 rounded'
+            className={inputClasses}
             onChange={getConfirmEmail}
          />
-      </>
+      </div>
    );
 }

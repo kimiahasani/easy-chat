@@ -1,6 +1,6 @@
 .btnTrans {
-    transition: all 350ms;
-    -o-transition: all 350ms;
-    -moz-transition: all 350ms;
-    -webkit-transition: all 350ms;
- }
+   transition: all 350ms;
+   -o-transition: all 350ms;
+   -moz-transition: all 350ms;
+   -webkit-transition: all 350ms;
+}

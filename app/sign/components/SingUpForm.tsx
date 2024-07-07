@@ -1,21 +1,29 @@
-import InputUsername from './InputUsername';
+'use client';
+
+import SignInWelcom from './SignInWelcom';
+import InputEmail from './InputEmail';
+import InputConfirmEmail from './InputConfirmEmail';
 import InputPass from './InputPass';
-import BtnGotoSignUp from './BtnGotoSignUp';
+import InputConfirmPass from './InputConfirmPass';
 import BtnSignGoogle from './BtnSignGoogle';
-import BtnLogin from './BtnLogin';
+import BtnSignUpSubmit from './BtnSignUpSubmit';
+import InputUsername from './InputUsername';
 import Or from '@/commonComponents/Or';
 import { signFormClasses, signFormContainerClasses } from '@/styles/commonClasses';
 
-export default function LogInForm() {
+export default function SingUpForm() {
    return (
       <section className={signFormContainerClasses}>
+         <SignInWelcom />
          <section className={signFormClasses}>
             <InputUsername />
+            <InputEmail />
+            <InputConfirmEmail />
             <InputPass />
+            <InputConfirmPass />
             <div>
-               <BtnLogin />
+               <BtnSignUpSubmit />
                <Or />
-               <BtnGotoSignUp />
                <BtnSignGoogle />
             </div>
          </section>

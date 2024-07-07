@@ -1,9 +1,8 @@
 'use client';
 
+import { btnOutlineClasses } from '@/styles/commonClasses';
 import { actInputConfirmEmail, actVisitLogin } from '@/rtk/slices/signSlice';
 import { patcher } from '@/rtk/store';
-import { btnOutlineClasses } from '@/styles/commonClasses';
-
 
 export default function BtnGotoSignUp() {
    return (

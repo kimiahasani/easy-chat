@@ -1,3 +1,3 @@
-export default function SingDef(){
-    return null
+export default function SignDef() {
+   return null;
 }

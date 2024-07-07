@@ -2,6 +2,7 @@
 
 import { actInputConfirmPass } from '@/rtk/slices/signSlice';
 import { patcher } from '@/rtk/store';
+import { LabelInputClasses, inputClasses } from '@/styles/commonClasses';
 import { ChangeEvent } from 'react';
 
 export default function InputConfirmPass() {
@@ -10,13 +11,14 @@ export default function InputConfirmPass() {
       patcher(actInputConfirmPass(val));
    };
    return (
-      <>
+      <div>
+         <label className={LabelInputClasses}>Confirm password</label>
          <input
             type='password'
             placeholder='Confirm password'
-            className='w-full p-2 border border-gray-300 rounded'
+            className={inputClasses}
             onChange={getConfirmPass}
          />
-      </>
+      </div>
    );
 }

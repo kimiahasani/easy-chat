@@ -1,5 +1,6 @@
 import styTrans from './trans.module.css';
 
+//
 // btns:
 const btnStyBaseClasses =
    styTrans.btnTrans + ' w-full my-2 py-2 rounded-lg border border-blue-600 ';
