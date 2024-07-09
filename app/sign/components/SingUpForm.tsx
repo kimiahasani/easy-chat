@@ -1,6 +1,6 @@
 'use client';
 
-import SignInWelcom from './SignInWelcom';
+import SignInWelcom from './SignInWelcome';
 import InputEmail from './InputEmail';
 import InputConfirmEmail from './InputConfirmEmail';
 import InputPass from './InputPass';
@@ -10,11 +10,12 @@ import BtnSignUpSubmit from './BtnSignUpSubmit';
 import InputUsername from './InputUsername';
 import Or from '@/commonComponents/Or';
 import { signFormClasses, signFormContainerClasses } from '@/styles/commonClasses';
+import SignInWelcome from './SignInWelcome';
 
 export default function SingUpForm() {
    return (
       <section className={signFormContainerClasses}>
-         <SignInWelcom />
+         <SignInWelcome />
          <section className={signFormClasses}>
             <InputUsername />
             <InputEmail />

@@ -21,3 +21,17 @@ export type UserType = {
    token: String;
    refToken: String;
 };
+
+export type ChatType = {
+   participants: {
+      id: string;
+      name: string;
+   }[];
+   messageId: {
+      id: string;
+      content: string;
+   }[];
+};
+export type SearchType = {
+   usernames: { username: string; _id: string }[];
+};
