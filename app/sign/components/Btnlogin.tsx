@@ -3,10 +3,8 @@
 import { useLoginUserMutation } from '@/rtk/queries/sign/sign';
 import { BtnFillClasses } from '@/styles/commonClasses';
 import { RootState } from '@/types/rtkType';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useSelector } from 'react-redux';
 
 
 export default function BtnLogin() {

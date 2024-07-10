@@ -10,15 +10,15 @@ export default function SearchRes() {
 
    return (
       <>
-         {searchData.length > 0 && (
-            <div>
-               {searchData.map((el) => (
-                  <p key={el._id} className='py-2 px-4'>
-                     {el.username!}
-                  </p>
-               ))}
+        {searchData.length > 0 && (
+    <div className="bg-white p-4">
+        {searchData.map((el) => (
+            <div key={el._id} className="py-2 px-4 border border-gray-300 rounded mb-2 last:mb-0">
+                <p className="text-gray-700">{el.username!}</p>
             </div>
-         )}
+        ))}
+    </div>
+)}       
       </>
    );
 }

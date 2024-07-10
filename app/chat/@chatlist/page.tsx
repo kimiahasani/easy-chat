@@ -1,14 +1,15 @@
 import Search from "../components/Search";
 
-
 export default function ChatList() {
-   return (
-      <>
-      <section>
-      <Search/>
-      <p>All chat and unread</p>
-      <p>list Chat</p>
+  return (
+    <div className="border border-black p-4 h-full ">
+      <Search />
+      <section className="flex border-r border-gray-300 justify-between mb-4">
+        <p>All chat and unread</p>
       </section>
-  </>
-   );
+      <section>
+        <p>List Chat</p>
+      </section>
+    </div>
+  );
 }

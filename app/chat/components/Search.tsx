@@ -33,10 +33,12 @@ export default function Search() {
                   placeholder='Search Username'
                   className={inputClasses}
                   onChange={searchResHandel}
-               />
-               {isLoading && <span className='py-2'>Loading...</span>}
-               {isError && <span className='py-2'>No user</span>}
+               /> 
             </div>
+            {isLoading && <span className='py-2 '>Loading...</span>}
+            <section className='p-3 text-center'>
+            {isError && <span className='py-2 text-red-900  bg-purple-200'>No user Find</span>}
+            </section>
             <SearchRes />
          </div>
       </>

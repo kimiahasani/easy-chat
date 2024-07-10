@@ -1,29 +1,27 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ChatType } from "@/types/rtkType";
-import { createSlice } from "@reduxjs/toolkit";
+interface Message {
+  username: string;
+  message: string;
+}
 
-const initialState = {
-   participants: [] as Array<Object>,
-   messageId: [] as Array<Object>
-} as ChatType;
+interface ChatState {
+  messages: Message[];
+}
 
-export const chatSlice = createSlice({
-   name: 'chatSlice',
-   initialState,
-   reducers: {
-      actParticipants: (state, {payload}) => {
-         state.participants =payload ;
-      },
-        actMessageId: (state, {payload}) => {
-             state.messageId = payload;
-        },
-      // Add actions  here
-   },
-   // extraReducers : ...
+const initialState: ChatState = {
+  messages: [],
+};
+
+const chatSlice = createSlice({
+  name: 'chat',
+  initialState,
+  reducers: {
+    setMessages: (state, action: PayloadAction<Message>) => {
+      state.messages.push(action.payload);
+    },
+  },
 });
 
-export const {
-   /* insert actions name here */
-   actParticipants,
-    actMessageId,
-} = chatSlice.actions;
+export const { setMessages } = chatSlice.actions;
+export default chatSlice.reducer;

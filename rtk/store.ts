@@ -10,6 +10,7 @@ export const store = configureStore({
       sign: signSlice.reducer,
       users: userSlice.reducer,
       search: searchSlice.reducer,
+      
       // users : userSlice.reducer
       // ...
       // [nameOfApiOne.reducerPath]: nameOfApiOne.reducer, //for RTK-Query

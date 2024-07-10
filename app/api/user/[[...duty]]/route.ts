@@ -17,7 +17,7 @@ export const POST = async (req: NextRequest, params: { params: { duty: string[] 
 export const DELETE = async (req: NextRequest, params: { params: { duty: string[] } }) => {
    console.log('delete params: ', params);
    
-   return new Response('sdfsdf', {
+   return new Response('Bad request', {
       status: 400,
    });
 };

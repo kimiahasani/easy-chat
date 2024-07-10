@@ -35,8 +35,7 @@ export default function BtnSignUpSubmit() {
          <button className={classes} onClick={sendDataTo}>
             {isLoading ? 'sending...' : 'Sign Up'}
          </button>
-    
-         //if has an error show this message
+   
          {isError && <p className='text-red-800'>Error To sending Data</p>}
       </>
    );
