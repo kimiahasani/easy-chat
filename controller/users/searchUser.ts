@@ -1,28 +1,36 @@
 import { NextRequest } from 'next/server';
 import { UserM } from '@/models/schemas/userSchema';
+// import jwt from 'jsonwebtoken';
+// import bcrypt from 'bcrypt';
 
 process.loadEnvFile();
 
 export const searchUsernameInDB = async (req: NextRequest) => {
    const dataFromFront = await req.json();
 
+   // check Jwt
+   // jwt.verify(dataFromFront.token, process.env.ACCESS_SEC, (err: Error, duc: any) => {
+   //    if (err) {
+   //       // If not verified do sth
+   //    } else {
+   //       // If verified do sth
+   //    }
+   // });
 
    try {
-      // find users use regex has a username and options i means doesn't matter upper or lower
+      // find users
       const users = await UserM.find({
          username: { $regex: dataFromFront.text, $options: 'i' },
       })
-      //we need username
-         .select('username')
-         .lean();
-      //it's return array if not user throw erro
+         .select('username profileImg name')
+         .lean()
+         .limit(5);
+
       if (!users || users.length === 0) throw new Error('User not found');
 
-      const dataToFront = JSON.stringify({
-         usernames: users,
-      });
+      const dataToFront = JSON.stringify(users);
 
-      console.log('dataToFront: ', dataToFront);
+      console.log('SendDataToFront: ', dataToFront);
 
       return new Response(dataToFront, {
          status: 200,

@@ -3,7 +3,10 @@ import { dbEC } from '../db';
 
 const userSchema = new mongoose.Schema(
    {
-      name: String,
+      name: {
+         type: String,
+         default: '',
+      },
 
       username: {
          type: String,
@@ -24,7 +27,15 @@ const userSchema = new mongoose.Schema(
 
       isOnline: Boolean,
 
-      profileImg: String,
+      isReadLastMessage: {
+         type: Boolean,
+         default: false,
+      },
+
+      profileImg: {
+         type: String,
+         default: '',
+      },
 
       chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ChatM' }],
 

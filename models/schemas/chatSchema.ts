@@ -5,12 +5,19 @@ const chatSchema = new mongoose.Schema(
    {
       participants: [
          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'UserM',
-            require: true,
+            partner: {
+               type: mongoose.Schema.Types.ObjectId,
+               ref: 'UserM',
+               require: true,
+            },
+            startChat: {
+               type: mongoose.Schema.Types.ObjectId,
+               ref: 'UserM',
+               require: true,
+            },
          },
       ],
-      messageId: [
+      messageIds: [
          {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'MessageM',

@@ -1,18 +1,18 @@
-'use client'
-import { RootState } from '@/types/rtkType';
+'use client';
+
+import useSocketIo from '@/hooks/useSocket';
 import { NextPage } from 'next';
-import { useSelector } from 'react-redux';
 
 const Chat: NextPage = () => {
-  const userData = useSelector((st: RootState) => st.users);
-  return (
-    <>
+   useSocketIo();
+
+   return (
+      <>
          <header className=''>
-            <h1 className='text-3xl font-bold text-center'>Welcome to the Chat Page</h1>
-            <p>Hi {userData.username}</p>
+            <h1 className='text-3xl font-bold'>Welcome to the Chat Page</h1>
          </header>
       </>
-  );
+   );
 };
 
 export default Chat;

@@ -1,3 +1,5 @@
+import { actSocketConnected, actSocketOff } from '@/rtk/slices/socketCheckSlice';
+import { patcher } from '@/rtk/store';
 import { socket } from '@/socket';
 import { useEffect } from 'react';
 
@@ -9,10 +11,12 @@ const useSocketIo = () => {
 
       function onConnect() {
          console.log('Socket Connected');
+         patcher(actSocketConnected());
       }
 
       function onDisconnect() {
          console.log('Socket Disconnected');
+         patcher(actSocketOff());
       }
 
       socket.on('connect', onConnect);

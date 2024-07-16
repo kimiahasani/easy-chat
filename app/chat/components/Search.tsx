@@ -1,27 +1,26 @@
 'use client';
 
-import { useTextToSearchMutation } from '@/rtk/queries/search/search';
 import { inputClasses } from '@/styles/commonClasses';
 import { ChangeEvent } from 'react';
-import { patcher } from '@/rtk/store';
-import { actUsernamesClearRes } from '@/rtk/slices/searchSlice';
 import SearchRes from './SearchRes';
+import { patcher } from '@/rtk/store';
+import { useSearchUsersMutation } from '@/rtk/queries/serchUser/serchUser';
+import { actDelSearchRes } from '@/rtk/slices/searchSlice';
 
 export default function Search() {
-   const [textToSearch, { isLoading, isError, error, isSuccess }] = useTextToSearchMutation();
-   
-   //sendValToSearch is type of null or typeof textToSearch
-   let sendValToSearch: null | ReturnType<typeof textToSearch>;
+   const [searchUsers, { isLoading, isError, error, isSuccess }] = useSearchUsersMutation();
+
+   let sendValToSearch: null | ReturnType<typeof searchUsers>;
 
    const searchResHandel = (e: ChangeEvent<HTMLInputElement>) => {
       if (sendValToSearch) sendValToSearch.abort();
-
-      patcher(actUsernamesClearRes());
-
-      const val = e.target.value;
-      if (val.length < 4) return;
-
-      sendValToSearch = textToSearch({ text: val });
+      // clear privies list
+      patcher(actDelSearchRes());
+      // check input length
+      const val = e.target.value.trim();
+      if (val.length < 3) return;
+      // send request
+      sendValToSearch = searchUsers({ text: val });
    };
 
    return (
@@ -33,12 +32,10 @@ export default function Search() {
                   placeholder='Search Username'
                   className={inputClasses}
                   onChange={searchResHandel}
-               /> 
+               />
+               {isLoading && <span className='py-2'>Loading...</span>}
+               {isError && <span className='py-2'>No user</span>}
             </div>
-            {isLoading && <span className='py-2 '>Loading...</span>}
-            <section className='p-3 text-center'>
-            {isError && <span className='py-2 text-red-900  bg-purple-200'>No user Find</span>}
-            </section>
             <SearchRes />
          </div>
       </>

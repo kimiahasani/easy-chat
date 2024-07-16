@@ -8,16 +8,25 @@ const messageSchema = new mongoose.Schema(
          ref: 'ChatM',
          require: true,
       },
+
       senderId: {
          type: mongoose.Schema.Types.ObjectId,
          ref: 'UserM',
          require: true,
       },
-      url: String,
+
+      isPartnerRead: {
+         type: Boolean,
+         default: false,
+      },
+
       contentType: {
          type: String,
          require: true,
       },
+
+      url: String,
+
       content: String,
    },
    {

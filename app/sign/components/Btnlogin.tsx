@@ -4,14 +4,15 @@ import { useLoginUserMutation } from '@/rtk/queries/sign/sign';
 import { BtnFillClasses } from '@/styles/commonClasses';
 import { RootState } from '@/types/rtkType';
 import { useRouter } from 'next/navigation';
-import {useSelector } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 
 export default function BtnLogin() {
-   const router = useRouter()
+   //
    const signUpData = useSelector((st: RootState) => st.sign);
    const userData = useSelector((st: RootState) => st.users);
+   //
 
+   const router = useRouter();
    const [loginUser, { isError, isLoading, isSuccess }] = useLoginUserMutation();
 
    const classes = isSuccess
@@ -26,18 +27,16 @@ export default function BtnLogin() {
          username: signUpData.inputUsername,
          pass: signUpData.inputPass,
       };
-      //after login success got to chat page
-      loginUser(bodyData).then(()=>router.push("/chat"));
-     
+
+      loginUser(bodyData).then(() => router.push('/chat'));
    };
+
    return (
       <>
          <button onClick={sendDataTo} className={classes}>
             Log In
          </button>
-         {/* <p>{userData.email}</p> */}
-         {isError && <p>Error To sending Data</p>}
-         {isSuccess && <p>Thant You for logIn</p>}
+         {isError && <p className='text-red-700'>Error To sending Data</p>}
       </>
    );
 }

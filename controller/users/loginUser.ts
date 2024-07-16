@@ -7,7 +7,7 @@ process.loadEnvFile();
 
 export const loginUser = async (req: NextRequest) => {
    const dataFromFront = await req.json();
-   const env1 = {
+   const evn = {
       data: { username: dataFromFront.username },
       accSec: process.env.ACCESS_SEC,
       accTim: process.env.ACCESS_TIME,
@@ -24,8 +24,8 @@ export const loginUser = async (req: NextRequest) => {
       if (!match) throw new Error('Password not correct');
 
       // ADD JWT:
-      const accessToken = jwt.sign(env1.data, env1.accSec, { expiresIn: env1.accTim });
-      const refreshToken = jwt.sign(env1.data, env1.refSec, { expiresIn: env1.refTim });
+      const accessToken = jwt.sign(evn.data, evn.accSec, { expiresIn: evn.accTim });
+      const refreshToken = jwt.sign(evn.data, evn.refSec, { expiresIn: evn.refTim });
 
       // save data
       findUser.refToken = refreshToken;
