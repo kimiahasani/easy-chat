@@ -3,7 +3,7 @@ import {
    actUpdateOneMessages,
    selectAllMessagesCR,
 } from '@/rtk/slices/messagesSlice';
-import { actDelOneItemInList, actUpdateOneItemInList } from '@/rtk/slices/partnersListSlice';
+import { actUpdateOneItemInList } from '@/rtk/slices/partnersListSlice';
 import { patcher } from '@/rtk/store';
 import { socket } from '@/socket';
 import { useState, useEffect, useRef } from 'react';
@@ -16,7 +16,6 @@ export default function EachMessage({ item, oneToEnd }) {
    const userId = useSelector((st) => st.users._id);
    const secRef = useRef();
    const { chatName, partnerInfo } = useSelector((st) => st.currentChat);
-   const allMessage = useSelector(selectAllMessagesCR);
 
    const [editableText, setEditableText] = useState(text);
    const isMyMsg = userId === senderId;
@@ -32,7 +31,13 @@ export default function EachMessage({ item, oneToEnd }) {
    };
 
    const editMessage = () => {
-      socket.emit('edit message', { sentAt, text: editableText });
+      socket.emit('edit message', {
+         sentAt,
+         text: editableText,
+         partnerId: partnerInfo?._id,
+         sender: senderId,
+         chatName,
+      });
    };
 
    // const delMessage = () => {
@@ -62,19 +67,20 @@ export default function EachMessage({ item, oneToEnd }) {
          };
       }, [secRef]);
 
-   useEffect(() => {
-      const handleSeenMessageNotification = ({ sentTime }) => {
-         patcher(actUpdateOneMessages({ id: sentTime, changes: { isPartnerRead: true } }));
-      };
+   // useEffect(() => {
 
-      socket.on('seen message notification', handleSeenMessageNotification);
+   //    return () => {
+   //       socket.off('seen message notification', handleSeenMessageNotification);
+   //    };
+   // }, [sentAt]);
+   const handleSeenMessageNotification = ({ sentTime }) => {
+      patcher(actUpdateOneMessages({ id: sentTime, changes: { isPartnerRead: true } }));
+   };
 
-      return () => {
-         socket.off('seen message notification', handleSeenMessageNotification);
-      };
-   }, [sentAt]);
+   socket.on('seen message notification', handleSeenMessageNotification);
 
    const delMessage = () => {
+      console.log('sentAt to back: ', sentAt);
       socket.emit('delete message', { sentAt, chatId, chatName });
    };
 
@@ -89,20 +95,19 @@ export default function EachMessage({ item, oneToEnd }) {
    //    };
    // }, [sentAt]);
 
-   useEffect(() => {
-      const handleEditSuccessNotif = ({ sentAt, text }) => {
-         if (sentAt === item.sentAt) {
-            patcher(actUpdateOneItemInList({ ...item, text }));
-            setEditableText(text);
-         }
-      };
+   // const handleEditSuccessNotif = ({ sentAt, text }) => {
+   //    if (sentAt === item.sentAt) {
+   //       patcher(actUpdateOneItemInList({ ...item, text }));
+   //       setEditableText(text);
+   //    }
+   // };
+   // socket.on('edit success notification', handleEditSuccessNotif);
+   // useEffect(() => {
 
-      socket.on('edit success notif', handleEditSuccessNotif);
-
-      return () => {
-         socket.off('edit success notif', handleEditSuccessNotif);
-      };
-   }, [item.sentAt]);
+   //    return () => {
+   //       socket.off('edit success notification', handleEditSuccessNotif);
+   //    };
+   // }, [item.sentAt]);
 
    return (
       <section ref={secRef}>

@@ -9,7 +9,7 @@ import { delMessage } from './controller/messages/delMessage.js';
 import { updateMessage } from './controller/messages/updateMessage.js';
 import { seenMessage } from './controller/messages/seenMessage.js';
 
-const hostname = 'localhost'; // set localhost like : bymyweb.com
+const hostname = 'localhost'; 
 const port = 3000;
 const dev = process.env.NODE_ENV !== 'production';
 // when using middleware `hostname` and `port` must be provided below
@@ -48,8 +48,9 @@ app.prepare().then(() => {
 
          payMsg.file = { fileName, fileUrl };
          console.log('payMsg : ', payMsg);
+         const updateMsg = { ...payMsg, file: { fileName, fileUrl } };
          // broadcast let us to send event to all room member except sender client
-         socket.broadcast.to(chatName).emit('message to room', payMsg);
+         socket.broadcast.to(chatName).emit('message to room', updateMsg);
          // console.log('onlineUsers: ', onlineUsers);
          // message to update partner list for partner
          // we need emit sender info partner
@@ -80,13 +81,12 @@ app.prepare().then(() => {
          socket.emit('res list partners', listPartners);
       });
 
-      socket.on('edit message', async ({ sentAt, text }) => {
+      socket.on('edit message', async ({ sentAt, text, chatName }) => {
          // edit in DB
          const updateSuccess = await updateMessage({ sentAt, text });
-         if (updateSuccess) {
-            // Notify the sender about the success
-            socket.emit('edit success notif', { sentAt, text });
-         }
+         if (!updateSuccess) return;
+         // send data to chatroom to update
+         io.to(chatName).emit('edit success notification', { sentTime: sentAt, text });
       });
 
       socket.on('delete message', async ({ sentAt, chatId, chatName }) => {
@@ -95,7 +95,6 @@ app.prepare().then(() => {
          if (!delMsg) return;
 
          io.to(chatName).emit('del success notification', sentAt);
-         // socket.emit('del success notification', sentAt); // Notify the sender as well
       });
 
       socket.on('seen message', async ({ sentAt, chatId }) => {

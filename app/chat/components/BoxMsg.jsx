@@ -5,6 +5,7 @@ import {
    actAddManyMessage,
    actAddOneMessage,
    actDelOneMessages,
+   actUpdateOneMessages,
    selectAllMessagesCR,
 } from '@/rtk/slices/messagesSlice';
 import { actDelOneItemInList, actUpdateOneItemInList } from '@/rtk/slices/partnersListSlice';
@@ -12,6 +13,8 @@ import { patcher } from '@/rtk/store';
 import { socket } from '@/socket';
 import { useSelector } from 'react-redux';
 import EachMessage from './EachMessage';
+import { use, useEffect } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
 
 export default function BoxMsg() {
    const userData = useSelector((st) => st.users);
@@ -41,17 +44,29 @@ export default function BoxMsg() {
    });
 
    socket.on('message to room', (msg) => {
-      console.log('Front- message to room : ', msg);
+      // console.log('Front- message to room : ', msg);
       patcher(actAddOneMessage(msg));
-      // console.log(msg.senderId, msg.text);
-      // with id partner, ===> change text
-      // const asd = {
-      //    _id: msg.senderId,
-      //    text: msg.text,
-      //    sentAt: msg.sentAt,
-      // };
-      // patcher(actUpdateOneItemInList(asd));
    });
+
+   // use useEffect to privent multi add this event to storage of web
+   useEffect(() => {
+      const asd = ({ sentTime, text }) => {
+         // update message
+         patcher(actUpdateOneMessages({ id: sentTime, changes: { text } }));
+         // if this message is last, update one item in list
+         console.log('sentAt to front: ', sentTime);
+         console.log('sentAt in last message: ', allMessage.at(-1)?.sentAt);
+         const lastMsgTime = allMessage.at(-1)?.sentAt;
+         if (lastMsgTime === sentTime) {
+            patcher(actUpdateOneItemInList({ id: partnerInfo._id, changes: { text } }));
+         }
+      };
+      socket.on('edit success notification', asd);
+      // remove event to clear storage
+      return () => {
+         socket.off('edit success notification', asd);
+      };
+   }, [allMessage]);
 
    socket.on('del success notification', (sentTime) => {
       console.log('del item in front');
@@ -66,7 +81,7 @@ export default function BoxMsg() {
             })
          );
          patcher(actDelOneMessages(sentTime));
-      } else if (allMessage?.at(-1)?.sentAt !== sentTime) {
+      } else if (allMessage?.length > 1 && allMessage?.at(-1)?.sentAt !== sentTime) {
          patcher(actDelOneMessages(sentTime));
       } else {
          patcher(actDelOneMessages(sentTime));
@@ -77,8 +92,8 @@ export default function BoxMsg() {
    return (
       <section>
          {allMessage.map((el, idx) => (
-            <section key={idx}>
-               <EachMessage item={el} oneToEnd={oneToEnd} />
+            <section key={nanoid()}>
+               <EachMessage item={el} oneToEnd={oneToEnd} key={nanoid()} />
             </section>
          ))}
       </section>

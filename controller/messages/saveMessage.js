@@ -7,8 +7,8 @@ export const saveMessage = async (msg) => {
    const { chatId, senderId, file, text, sentAt } = msg;
    if (!file && !text) return false;
 
-   let fileUrl = '1',
-      fileName = '1';
+   let fileUrl = '',
+      fileName = '';
 
    if (file) {
       const fileAddress = saveFile(file);
