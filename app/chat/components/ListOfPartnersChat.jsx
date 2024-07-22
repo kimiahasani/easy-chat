@@ -2,18 +2,27 @@
 
 import {
    actAddManyPartnersToList,
+   actUpsertOneItemInList,
    selectAllPartnerList,
 } from '@/rtk/slices/partnersListSlice';
 import { patcher } from '@/rtk/store';
 import { socket } from '@/socket';
 import { useSelector } from 'react-redux';
+import OneItemOfList from './OneItemOfList';
 
 export default function ListOfPartnersChat() {
    const allPartners = useSelector(selectAllPartnerList);
 
+   // const userId = useSelector((st) => st.users._id);
+
    socket.on('res list partners', (argArr) => {
-      console.log('res from front : ', argArr);
+      // console.log('res from front : ', argArr);
       patcher(actAddManyPartnersToList(argArr));
+   });
+
+   socket.on('to update partner list', (partnerData) => {
+      // console.log('data to update list is : ', partnerData);
+      patcher(actUpsertOneItemInList(partnerData));
    });
 
    if (allPartners.length === 0) return;
@@ -22,11 +31,9 @@ export default function ListOfPartnersChat() {
       <>
          <h1>new is here</h1>
          {allPartners.map((el, idx) => (
-            <section key={idx}>
-               {console.log(el)}
-               <h5>{el.username}</h5>
-               <p>{el.text.substring(0, 30)}...</p>
-            </section>
+            <div key={idx}>
+               <OneItemOfList item={el} />
+            </div>
          ))}
       </>
    );

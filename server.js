@@ -5,6 +5,9 @@ import { prepareChatName } from './controller/chat/prepareChatName.js';
 import { saveMessage } from './controller/messages/saveMessage.js';
 import { chatHistory } from './controller/chat/chatHistory.js';
 import { getAllPartners } from './controller/chat/getAllPartners.js';
+import { delMessage } from './controller/messages/delMessage.js';
+import { updateMessage } from './controller/messages/updateMessage.js';
+import { seenMessage } from './controller/messages/seenMessage.js';
 
 const hostname = 'localhost'; // set localhost like : bymyweb.com
 const port = 3000;
@@ -17,9 +20,15 @@ app.prepare().then(() => {
    const httpServer = createServer(handler);
 
    const io = new Server(httpServer);
+   let onlineUsers = {};
 
    io.on('connection', (socket) => {
+      socket.on('save me as online user', (userId) => {
+         onlineUsers[`${userId}`] = socket.id;
+      });
+
       socket.on('join pv room', async ({ cId, cName, userId, partnerId }) => {
+         // add user to online member
          // get or create chat info
          if (!cId) {
             const { chatName, chatId } = await prepareChatName(userId, partnerId);
@@ -35,11 +44,29 @@ app.prepare().then(() => {
       socket.on('new message', async ({ chatName, payMsg }) => {
          // console.log('message: ', payMsg.text);
          // save message to DB
-         const saveMsToDB = await saveMessage(payMsg);
+         const { fileName, fileUrl } = await saveMessage(payMsg);
+
+         payMsg.file = { fileName, fileUrl };
+         console.log('payMsg : ', payMsg);
          // broadcast let us to send event to all room member except sender client
          socket.broadcast.to(chatName).emit('message to room', payMsg);
-         const { sentAt } = payMsg;
-         socket.emit('message confirmation', sentAt);
+         // console.log('onlineUsers: ', onlineUsers);
+         // message to update partner list for partner
+         // we need emit sender info partner
+         const partner = onlineUsers[`${payMsg.partnerId}`];
+         if (partner) {
+            const dataToSend = {
+               text: payMsg.text,
+               _id: payMsg.senderId,
+               name: payMsg.name,
+               username: payMsg.username,
+               profileImg: payMsg.profileImg,
+               sentAt: payMsg.sentAt,
+            };
+            // console.log('payMsg  :', payMsg);
+            socket.to(partner).emit('to update partner list', dataToSend);
+         }
+         socket.emit('message confirmation', 'sentAt');
       });
 
       socket.on('current message history', async ({ userId, partnerId }) => {
@@ -51,6 +78,33 @@ app.prepare().then(() => {
          // search in DB to find All chats
          const listPartners = await getAllPartners(userId);
          socket.emit('res list partners', listPartners);
+      });
+
+      socket.on('edit message', async ({ sentAt, text }) => {
+         // edit in DB
+         const updateSuccess = await updateMessage({ sentAt, text });
+         if (updateSuccess) {
+            // Notify the sender about the success
+            socket.emit('edit success notif', { sentAt, text });
+         }
+      });
+
+      socket.on('delete message', async ({ sentAt, chatId, chatName }) => {
+         // delete in DB
+         const delMsg = await delMessage({ sentAt, chatId });
+         if (!delMsg) return;
+
+         io.to(chatName).emit('del success notification', sentAt);
+         // socket.emit('del success notification', sentAt); // Notify the sender as well
+      });
+
+      socket.on('seen message', async ({ sentAt, chatId }) => {
+         const seenMsg = await seenMessage({ sentAt, chatId });
+         if (!seenMsg) return;
+         const userSender = onlineUsers[`${seenMsg.senderId}`];
+         if (!userSender) return;
+
+         socket.to(userSender).emit('seen message notification', { sentTime: sentAt });
       });
    });
 

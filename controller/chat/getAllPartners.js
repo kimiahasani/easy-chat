@@ -22,7 +22,7 @@ export const getAllPartners = async ({ userId }) => {
          });
       }
    } catch (err) {
-      console.log('error to get list: ', err);
+      console.log('error to get list: ', err.message);
    }
 
    return resList;

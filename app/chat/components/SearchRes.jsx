@@ -14,6 +14,7 @@ export default function SearchRes() {
    if (resList.length === 0) return null;
 
    const selectPartner = (partner) => {
+      console.log('in result : ', partner);
       // update currentChat data
       patcher(actCurrentChatUpdate(partner));
       // remove search res

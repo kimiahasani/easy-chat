@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 export const adpChatMessages = createEntityAdapter({
    // Assume IDs are stored in a field other than `book.id`
-   selectId: (oneItem) => oneItem._id,
+   selectId: (oneItem) => oneItem.sentAt,
    // Keep the 'all IDs' array sorted based on book titles
    sortComparer: (a, b) => a.sentAt.localeCompare(b.sentAt),
 });
@@ -20,6 +20,8 @@ export const adpChatMessagesSlice = createSlice({
       actAddOneMessage: adpChatMessages.addOne,
       actAddManyMessage: adpChatMessages.addMany,
       actDelAllMessages: adpChatMessages.removeAll,
+      actDelOneMessages: adpChatMessages.removeOne,
+      actUpdateOneMessages: adpChatMessages.updateOne,
       //	 in component: patcher(actAddOneItem(myPayload))
       // ...
    },
@@ -29,6 +31,8 @@ export const adpChatMessagesSlice = createSlice({
 // export actions
 export const {
    /* insert all action here */
+   actUpdateOneMessages,
+   actDelOneMessages,
    actDelAllMessages,
    actAddOneMessage,
    actAddManyMessage,

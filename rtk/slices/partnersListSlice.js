@@ -18,6 +18,9 @@ export const adpPartnersSlice = createSlice({
    initialState,
    reducers: {
       actAddManyPartnersToList: adpPartners.addMany,
+      actUpdateOneItemInList: adpPartners.updateOne,
+      actUpsertOneItemInList: adpPartners.upsertOne,
+      actDelOneItemInList: adpPartners.removeOne,
       // actAddOneItem: adpPartners.addOne,
       //	 in component: patcher(actAddOneItem(myPayload))
       // ...
@@ -28,7 +31,10 @@ export const adpPartnersSlice = createSlice({
 // export actions
 export const {
    /* insert all action here */
+   actDelOneItemInList,
+   actUpsertOneItemInList,
    actAddManyPartnersToList,
+   actUpdateOneItemInList,
 } = adpPartnersSlice.actions;
 
 // export selectors. proper all selector here

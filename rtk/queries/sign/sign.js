@@ -30,7 +30,7 @@ export const signRtkApi = createApi({
             patcher(
                actUserAdd({ ...arg, _id: res._id, token: res.token, refToken: res.refToken })
             );
-            return null;
+            return true;
          },
       }),
 

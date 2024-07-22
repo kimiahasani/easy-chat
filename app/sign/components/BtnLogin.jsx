@@ -27,7 +27,9 @@ export default function BtnLogin() {
          pass: signUpData.inputPass,
       };
 
-      loginUser(bodyData).then(() => router.push('/chat'));
+      loginUser(bodyData)
+         .unwrap()
+         .then((res) => res && router.push('/chat'));
    };
 
    return (

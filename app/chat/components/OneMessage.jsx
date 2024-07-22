@@ -2,7 +2,7 @@
 import { socket } from '@/socket';
 
 export default function OneMessage({ item }) {
-   const { text, sendAt, _id, chatId } = item;
+   const { text, sendAt, chatId, file } = item;
 
    const editMessage = () => {
       socket.emit('edit message', { _id, chatId });

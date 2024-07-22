@@ -1,17 +1,21 @@
 import { ChatM } from '../../models/schemas/chatSchema.js';
 import { MessageM } from '../../models/schemas/messageSchema.js';
+import { saveFile } from '../../utils/saveFiles.js';
 
 export const saveMessage = async (msg) => {
+   console.log('Start save message...');
    const { chatId, senderId, file, text, sentAt } = msg;
    if (!file && !text) return false;
 
-   let fileUrl = '',
-      fileFormat = '';
+   let fileUrl = '1',
+      fileName = '1';
+
    if (file) {
-      // save file and get url of that
-      // fill fileUrl
-      // fill fileFormat
+      const fileAddress = saveFile(file);
+      fileUrl = fileAddress.fileUrl;
+      fileName = fileAddress.fileName;
    }
+
    try {
       const newMsg = await MessageM.create({
          text,
@@ -19,7 +23,7 @@ export const saveMessage = async (msg) => {
          senderId,
          sentAt,
          fileUrl,
-         fileFormat,
+         fileName,
       });
 
       const chatUpdate = await ChatM.findByIdAndUpdate(
@@ -28,6 +32,8 @@ export const saveMessage = async (msg) => {
          { new: true }
       );
    } catch (err) {
-      return false;
+      fileName = '';
+      fileUrl = '';
    }
+   return { fileName, fileUrl };
 };
