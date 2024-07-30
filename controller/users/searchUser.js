@@ -3,7 +3,7 @@ import { UserM } from '@/models/schemas/userSchema';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-process.loadEnvFile();
+import 'dotenv/config';
 
 export const searchUsernameInDB = async (req) => {
    const dataFromFront = await req.json();

@@ -4,7 +4,7 @@
 // // import bcrypt from 'bcrypt';
 // // import gBack from '@/utils/gBack';
 
-// process.loadEnvFile();
+// import 'dotenv/config';
 
 // export const byGoogle = async (req) => {
 //    const dataFromFront = await req.json();

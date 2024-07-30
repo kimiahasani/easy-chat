@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
-process.loadEnvFile();
 
 export const dbEC = mongoose.createConnection(String(process.env.DB_URL));

@@ -1,8 +1,7 @@
 import { cookies } from 'next/headers';
 import { checkAccessToken } from '../../controller/jwt/checkToken';
 import { redirect } from 'next/navigation';
-
-process.loadEnvFile();
+import 'dotenv/config';
 
 function checkJwt() {
    const accessT = String(cookies().get('accessToken').value);

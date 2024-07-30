@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 
-process.loadEnvFile();
+import 'dotenv/config';
 
 export const loginUser = async (req) => {
    const dataFromFront = await req.json();

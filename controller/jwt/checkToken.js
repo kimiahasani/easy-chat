@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-process.loadEnvFile();
+import 'dotenv/config';
 
 // check access token:
 export function checkAccessToken(accessToken, accessSecret) {
