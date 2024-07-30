@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const openai = new OpenAI({
-   apiKey: String(String(process.env.OPENAI_API_KEY)),
+   apiKey: String(process.env.OPENAI_API_KEY),
 });
 
 const sentPromptToAi = async(myPrompt) => {

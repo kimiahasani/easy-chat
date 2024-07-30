@@ -6,11 +6,11 @@ import "dotenv/config";
 
 function checkJwt() {
   const accessT = String(cookies().get("accessToken").value);
-  const accessS = String(String(process.env.ACCESS_SEC));
-  const accessTime = String(String(process.env.ACCESS_TIME));
+  const accessS = String(process.env.ACCESS_SEC);
+  const accessTime =String(process.env.ACCESS_TIME);
 
   const refreshT = String(cookies().get("refreshToken").value);
-  const refreshS = String(String(process.env.REFRESH_SEC));
+  const refreshS = String(process.env.REFRESH_SEC);
 
   // console.log('Got data from cookie from Chat page');
   // console.log('accessS : ', accessS, 'accessT :', accessT);
