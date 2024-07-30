@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 
 export default function PartnerHeader() {
    const pInfo = useSelector((st) => st.currentChat.partnerInfo);
-   if (!pInfo._id) return null;
+   console.log(pInfo)
+   if (!pInfo._id) 
+      return null;
 
    const imgProfile = () =>
       pInfo.profileImg ? (

@@ -1,7 +1,6 @@
 import InputUsername from './InputUsername';
 import InputPass from './InputPass';
 import BtnGotoSignUp from './BtnGotoSignUp';
-import BtnSignGoogle from './BtnSignGoogle';
 import BtnLogin from './BtnLogin';
 import Or from '@/commonComponents/Or';
 import { signFormClasses, signFormContainerClasses } from '@/styles/commonClasses';
@@ -16,7 +15,6 @@ export default function LogInForm() {
                <BtnLogin />
                <Or />
                <BtnGotoSignUp />
-               <BtnSignGoogle />
             </div>
          </section>
       </section>

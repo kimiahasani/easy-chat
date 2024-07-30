@@ -1,6 +1,7 @@
 import { UserM } from '@/models/schemas/userSchema';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { cookies } from 'next/headers';
 
 process.loadEnvFile();
 

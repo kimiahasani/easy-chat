@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Menu() {
@@ -33,11 +34,8 @@ export default function Menu() {
         {isOpen && (
           <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
-              <button
-                onClick={() => (window.location.href = "/chat")}
-                className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                <svg
+            <Link href={"/chat"} className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="w-5 h-5 mr-3 text-gray-400 group-hover:text-gray-500"
                   viewBox="0 0 24 24"
@@ -46,10 +44,11 @@ export default function Menu() {
                   <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 2.511.936 4.8 2.49 6.535L2 22l3.415-2.34C7.37 21.06 9.606 22 12 22zm0-2c-2.396 0-4.633-.94-6.27-2.505l-.857.585L5 15.242C3.44 13.1 2.5 10.613 2.5 8c0-5.25 4.25-9.5 9.5-9.5s9.5 4.25 9.5 9.5-4.25 9.5-9.5 9.5z" />
                 </svg>
                 Chat
-              </button>
-
-              <button
-                onClick={() => (window.location.href = "/chat-AI")}
+                </Link>
+                
+               
+              <Link
+              href={"/chat-AI"}
                 className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 <svg
@@ -62,10 +61,10 @@ export default function Menu() {
                 </svg>
                 Chatbot
                 <span className="ml-auto text-xs text-gray-500"></span>
-              </button>
+              </Link>
 
-              <button
-                onClick={() => (window.location.href = "/about-Easy-Chat")}
+              <Link
+                href={"/about-Easy-Chat"}
                 className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 <svg
@@ -78,9 +77,9 @@ export default function Menu() {
                 </svg>
                 About Easy Chat
                 <span className="ml-auto text-xs text-gray-500"></span>
-              </button>
-              <button
-                onClick={() => (window.location.href = "/profile")}
+              </Link>
+              <Link
+                href={"/profile"}
                 className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 <svg
@@ -92,7 +91,7 @@ export default function Menu() {
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
                 Profile
-              </button>
+              </Link>
             </div>
           </div>
         )}
