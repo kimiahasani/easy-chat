@@ -16,11 +16,11 @@ export const addUser = async (req) => {
       const newUser = new UserM(dataFromFront);
 
       // ADD JWT:
-      const accessToken = jwt.sign({ username: dataFromFront.username }, process.env.ACCESS_SEC, {
-         expiresIn: process.env.ACCESS_TIME,
+      const accessToken = jwt.sign({ username: dataFromFront.username }, String(process.env.ACCESS_SEC), {
+         expiresIn: String(process.env.ACCESS_TIME),
       });
-      const refreshToken = jwt.sign({ username: dataFromFront.username }, process.env.REFRESH_SEC, {
-         expiresIn: process.env.REFRESH_TIME,
+      const refreshToken = jwt.sign({ username: dataFromFront.username }, String(process.env.REFRESH_SEC), {
+         expiresIn: String(process.env.REFRESH_TIME),
       });
       // save data
       newUser.refToken = refreshToken;

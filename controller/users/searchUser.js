@@ -9,7 +9,7 @@ export const searchUsernameInDB = async (req) => {
    const dataFromFront = await req.json();
 
    // check Jwt
-   // jwt.verify(dataFromFront.token, process.env.ACCESS_SEC, (err: Error, duc: any) => {
+   // jwt.verify(dataFromFront.token, String(process.env.ACCESS_SEC), (err: Error, duc: any) => {
    //    if (err) {
    //       // If not verified do sth
    //    } else {

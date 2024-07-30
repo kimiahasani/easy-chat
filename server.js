@@ -12,7 +12,7 @@ import { askToAi } from './controller/ai/aslAi.js';
 
 const hostname = 'localhost'; // set localhost like : bymyweb.com
 const port = 3000;
-const dev = process.env.NODE_ENV !== 'production';
+const dev = String(process.env.NODE_ENV) !== 'production';
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();

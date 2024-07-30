@@ -10,10 +10,10 @@
 //    const dataFromFront = await req.json();
 //    // const evn = {
 //    //    data: { username: dataFromFront.username },
-//    //    accSec: process.env.ACCESS_SEC,
-//    //    accTim: process.env.ACCESS_TIME,
-//    //    refSec: process.env.REFRESH_SEC,
-//    //    refTim: process.env.ACCESS_TIME,
+//    //    accSec: String(process.env.ACCESS_SEC),
+//    //    accTim: String(process.env.ACCESS_TIME),
+//    //    refSec: String(process.env.REFRESH_SEC),
+//    //    refTim: String(process.env.ACCESS_TIME),
 //    // };
 
 //    try {
