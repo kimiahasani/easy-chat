@@ -28,10 +28,18 @@ export default function SearchRes() {
    };
 
    return (
-      <section>
+      <section className="mt-2 space-y-2">
          {resList.map((el, idx) => (
-            <button key={idx} onClick={() => selectPartner(el)}>
-               {el.username}
+            <button key={idx} onClick={() => selectPartner(el)} className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition duration-150 ease-in-out flex items-center space-x-3">
+               <img
+                  src={el.profileImg || `https://ui-avatars.com/api/?name=${el.username}`}
+                  alt={el.username}
+                  className="w-10 h-10 rounded-full"
+               />
+               <div>
+               <p className="font-semibold text-gray-800">{el.username}</p>
+               <p className="text-sm text-gray-500">{el.name}</p>
+               </div>
             </button>
          ))}
       </section>

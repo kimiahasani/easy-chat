@@ -8,12 +8,14 @@ export const saveMessage = async (msg) => {
    if (!file && !text) return false;
 
    let fileUrl = '',
+      fileType = '',
       fileName = '';
 
-   if (file) {
-      const fileAddress = saveFile(file);
-      fileUrl = fileAddress.fileUrl;
-      fileName = fileAddress.fileName;
+   if (file.fileName) {
+      // console.log('please file: ', file);
+      fileUrl = await saveFile(file);
+      fileType = file.fileType;
+      fileName = file.fileName;
    }
 
    try {
@@ -22,8 +24,7 @@ export const saveMessage = async (msg) => {
          chatId,
          senderId,
          sentAt,
-         fileUrl,
-         fileName,
+         file: { fileUrl, fileType, fileName },
       });
 
       const chatUpdate = await ChatM.findByIdAndUpdate(
@@ -34,6 +35,7 @@ export const saveMessage = async (msg) => {
    } catch (err) {
       fileName = '';
       fileUrl = '';
+      fileType = '';
    }
-   return { fileName, fileUrl };
+   return { fileName, fileUrl, fileType };
 };

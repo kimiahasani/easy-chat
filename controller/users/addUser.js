@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/server';
 import { UserM } from '@/models/schemas/userSchema';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -16,20 +15,12 @@ export const addUser = async (req) => {
       const newUser = new UserM(dataFromFront);
 
       // ADD JWT:
-      const accessToken = jwt.sign(
-         { username: dataFromFront.username },
-         process.env.ACCESS_SEC,
-         {
-            expiresIn: process.env.ACCESS_TIME,
-         }
-      );
-      const refreshToken = jwt.sign(
-         { username: dataFromFront.username },
-         process.env.REFRESH_SEC,
-         {
-            expiresIn: process.env.REFRESH_TIME,
-         }
-      );
+      const accessToken = jwt.sign({ username: dataFromFront.username }, process.env.ACCESS_SEC, {
+         expiresIn: process.env.ACCESS_TIME,
+      });
+      const refreshToken = jwt.sign({ username: dataFromFront.username }, process.env.REFRESH_SEC, {
+         expiresIn: process.env.REFRESH_TIME,
+      });
       // save data
       newUser.refToken = refreshToken;
       await newUser.save();
@@ -40,6 +31,9 @@ export const addUser = async (req) => {
          refToken: refreshToken,
          message: 'ok',
       });
+
+      cookies().set('accessToken', accessToken);
+      cookies().set('refreshToken', refreshToken);
 
       return new Response(dataToFront, {
          status: 200,

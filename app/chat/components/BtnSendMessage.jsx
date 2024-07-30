@@ -3,6 +3,7 @@
 import useEnterKeyToSendMsg from '@/hooks/useEnterKeyToSendMsg';
 import {
    actChatCreated,
+   actCurrentFileUpdate,
    actInputMessage,
    actSetCurrentChatName_Id,
 } from '@/rtk/slices/currentChatSlice';
@@ -11,11 +12,12 @@ import { actUpsertOneItemInList } from '@/rtk/slices/partnersListSlice';
 import { patcher } from '@/rtk/store';
 import { socket } from '@/socket';
 import { nowTime } from '@/utils/timeNow';
-import { fileToBufferInFront } from '@/utils/toBufferFront';
+import { fullFileInfo } from '@/utils/toBufferFront';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export default function BtnSendMessage() {
-   let myFile = '';
+   const [thisFile, setThisFile] = useState('');
    const { name, username, profileImg, _id: userId } = useSelector((st) => st.users);
 
    const {
@@ -31,18 +33,16 @@ export default function BtnSendMessage() {
    });
 
    const partnerId = partnerInfo._id;
-   // const file = '';
 
    const attachFile = async (e) => {
       const file = e?.target?.files[0];
       if (!file) return '';
-      // convert file to buffer
-      const fileType = file.type?.split('/')?.[0];
-      console.log('file: ', file);
-      const buffer = await fileToBufferInFront(file);
 
-      // setFileBuff({ fileName: file.name, fileType, buffer });
-      myFile = { fileName: file.name, fileType, buffer };
+      const { name: fileName, fileType, buffer, dataUrl, size } = await fullFileInfo(file);
+      if (size > 950) return;
+
+      patcher(actCurrentFileUpdate({ fileName, fileType, fileUrl: dataUrl }));
+      setThisFile({ fileName, fileType, fileUrl: dataUrl, buffer });
    };
 
    const sendMsgFu = async () => {
@@ -54,11 +54,13 @@ export default function BtnSendMessage() {
       const sentAt = nowTime(new Date());
 
       const payMsg = {
-         // remove id and set "sentAt" as id for redux adp
-         // _id: Math.random().toString(32),
          senderId: userId,
          name,
-         file: myFile,
+         file: {
+            fileName: thisFile?.fileName,
+            fileType: thisFile?.fileType,
+            buffer: thisFile?.buffer,
+         },
          username,
          profileImg,
          partnerId,
@@ -78,17 +80,30 @@ export default function BtnSendMessage() {
       };
       try {
          socket.emit('new message', { chatName, payMsg });
-         payMsg.file = '';
+
+         payMsg.file = {
+            buffer: '',
+            fileType: thisFile?.fileType,
+            fileUrl: thisFile?.fileUrl,
+         };
+
+         // update redux
+         // add to message box for sender
          patcher(actAddOneMessage(payMsg));
+         // remove from preview
+         patcher(actCurrentFileUpdate({ fileName: '', fileUrl: '', fileType: '' }));
+         // clear input
          patcher(actInputMessage(''));
+         // update list of partner (left side)
          patcher(actUpsertOneItemInList(anItemInList));
+         // clear current file:
+         setThisFile('');
       } catch (err) {
          console.log('Error to send message');
       }
-      myFile = '';
    };
 
-   partnerId && useEnterKeyToSendMsg(sendMsgFu);
+   // partnerId && useEnterKeyToSendMsg(sendMsgFu);
 
    return (
       <>

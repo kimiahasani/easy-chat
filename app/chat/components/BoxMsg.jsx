@@ -29,6 +29,7 @@ export default function BoxMsg() {
 
       // save in redux
       if (allMessages.length === 0) return;
+      console.log('allMessages: ', allMessages);
       patcher(actAddManyMessage(allMessages));
    });
 
@@ -36,15 +37,9 @@ export default function BoxMsg() {
 
    const oneToEnd = allMessage.length > 1 ? allMessage.at(-2) : null;
 
-   socket.on('message confirmation', (arg) => {
-      // console.log('Front- message confirmation for: ', arg);
-      if (arg.uId !== userId) return;
-
-      // console.log('message successfully sent to chatroom');
-   });
 
    socket.on('message to room', (msg) => {
-      // console.log('Front- message to room : ', msg);
+      console.log('Front- message to room : ', msg);
       patcher(actAddOneMessage(msg));
    });
 
@@ -90,10 +85,10 @@ export default function BoxMsg() {
    });
 
    return (
-      <section>
-         {allMessage.map((el, idx) => (
+      <section className="flex flex-col gap-4 p-4 overflow-y-auto">
+         {allMessage.map((el) => (
             <section key={nanoid()}>
-               <EachMessage item={el} oneToEnd={oneToEnd} key={nanoid()} />
+               <EachMessage item={el} key={nanoid()} />
             </section>
          ))}
       </section>

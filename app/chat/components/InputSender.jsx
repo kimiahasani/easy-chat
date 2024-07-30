@@ -13,14 +13,16 @@ export default function InputSender() {
    };
 
    return (
-      <section className=' py-5 px-3 border-3 rounded-md bg-slate-50 flex items-center gap-2'>
-         <input
-            type='text'
-            placeholder='Insert Message'
-            className={inputClasses}
-            onChange={setInputValue}
-            value={inputSenderContent}
-         />
+  
+      <section className=" py-5 px-3 border-3 rounded-md bg-slate-50 flex justify-center items-center gap-2">
+        <input
+          type='text'
+          placeholder='Insert Message'
+          className={inputClasses}
+          onChange={setInputValue}
+          value={inputSenderContent}
+        />
       </section>
+
    );
 }

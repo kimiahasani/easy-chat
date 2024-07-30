@@ -1,46 +1,49 @@
-'use client';
-
-import { inputClasses } from '@/styles/commonClasses';
-import { ChangeEvent, useState } from 'react';
-import SearchRes from './SearchRes';
-import { patcher } from '@/rtk/store';
-import { useSearchUsersMutation } from '@/rtk/queries/serchUser/serchUser';
-import { actDelSearchRes } from '@/rtk/slices/searchSlice';
+import { inputClasses } from "@/styles/commonClasses";
+import { useState } from "react";
+import SearchRes from "./SearchRes";
+import { patcher } from "@/rtk/store";
+import { useSearchUsersMutation } from "@/rtk/queries/serchUser/serchUser";
+import { actDelSearchRes } from "@/rtk/slices/searchSlice";
+import { FaSearch } from "react-icons/fa";
 
 export default function Search() {
-   const [searchUsers, { isLoading, isError, error, isSuccess }] = useSearchUsersMutation();
-   const [query, setQuery] = useState(null);
+  const [searchUsers, { isLoading, isError, error, isSuccess }] = useSearchUsersMutation();
+  const [query, setQuery] = useState(null);
 
-   let sendValToSearch;
+  const searchResHandel = (e) => {
+    if (query) query.abort();
 
-   const searchResHandel = (e) => {
-      if (query) query.abort();
+    // clear previous list
+    patcher(actDelSearchRes());
 
-      // clear privies list
-      patcher(actDelSearchRes());
+    // check input length
+    const val = e.target.value.trim();
+    if (val.length < 3) return;
 
-      // check input length
-      const val = e.target.value.trim();
-      if (val.length < 3) return;
+    // send request
+    setQuery(searchUsers({ text: val }));
+  };
 
-      // send request
-      searchUsers({ text: val });
-      setQuery(searchUsers({ text: val }));
-   };
-
-   return (
-      <div>
-         <div className='flex items-center'>
-            <input
-               type='text'
-               placeholder='Search Username'
-               className={inputClasses}
-               onChange={searchResHandel}
-            />
-            {isLoading && <span className='py-2'>Loading...</span>}
-            {isError && <span className='py-2'>No user</span>}
-         </div>
-         <SearchRes />
+  return (
+    <div className="p-4 border-b border-gray-200">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Search Username"
+          className={inputClasses}
+          onChange={searchResHandel}
+        />
+        {isLoading && <span className="text-center py-2 text-gray-500">Loading...</span>}
+        {isError && (
+          <div className="flex flex-col items-center mt-4 text-gray-500">
+            <FaSearch className="text-4xl mb-2" />
+            <span className="text-sm text-center">
+              No Results - check the spelling or try a new search.
+            </span>
+          </div>
+        )}
       </div>
-   );
+      <SearchRes />
+    </div>
+  );
 }

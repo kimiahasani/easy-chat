@@ -29,7 +29,6 @@ export default function ListOfPartnersChat() {
 
    return (
       <>
-         <h1>new is here</h1>
          {allPartners.map((el, idx) => (
             <div key={idx}>
                <OneItemOfList item={el} />

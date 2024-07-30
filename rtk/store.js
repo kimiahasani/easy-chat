@@ -5,8 +5,12 @@ import { searchSlice } from './slices/searchSlice';
 import { socketCheckSlice } from './slices/socketCheckSlice';
 
 import { chatsSlice } from './slices/chatsSlice';
+
+
+import { aiChatSlice } from './slices/aiChatSlice';
 import { currentChatSlice } from './slices/currentChatSlice';
 import { adpChatMessagesSlice } from './slices/messagesSlice';
+import { messageActionsSlice } from './slices/messageActionsSlice';
 
 import { signRtkApi } from './queries/sign/sign';
 import { searchUserRTKApi } from './queries/serchUser/serchUser';
@@ -22,6 +26,9 @@ export const store = configureStore({
       currentChat: currentChatSlice.reducer,
       chatMessages: adpChatMessagesSlice.reducer,
       partnersList: adpPartnersSlice.reducer,
+      aiChat: aiChatSlice.reducer,
+      // messageActions: messageActionsSlice.reducer,
+    
 
       [signRtkApi.reducerPath]: signRtkApi.reducer,
       [searchUserRTKApi.reducerPath]: searchUserRTKApi.reducer,

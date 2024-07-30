@@ -7,12 +7,16 @@ const initialState = {
    inputPass: '',
    inputConfirmPass: '',
    inputUsername: '',
+   errorMsg: '',
 };
 
 export const signSlice = createSlice({
    name: 'uniquNameForSlice',
    initialState,
    reducers: {
+      actSignError: (state, { payload }) => {
+         state.errorMsg = payload;
+      },
       actVisitLogin: (state) => {
          state.visitLogin = !state.visitLogin;
       },
@@ -38,6 +42,7 @@ export const signSlice = createSlice({
 
 export const {
    /* insert actions name here */
+   actSignError,
    actVisitLogin,
    actInputEmail,
    actInputConfirmEmail,

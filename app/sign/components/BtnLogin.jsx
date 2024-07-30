@@ -4,11 +4,11 @@ import { useLoginUserMutation } from '@/rtk/queries/sign/sign';
 import { BtnFillClasses } from '@/styles/commonClasses';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { loginValidition } from '@/utils/formInputChecker/loginValidition';
 
 export default function BtnLogin() {
    //
-   const signUpData = useSelector((st) => st.sign);
-   const userData = useSelector((st) => st.users);
+   const { inputUsername, inputPass, errorMsg } = useSelector((st) => st.sign);
    //
 
    const router = useRouter();
@@ -21,10 +21,13 @@ export default function BtnLogin() {
    const sendDataTo = async () => {
       if (isLoading) return;
 
-      console.log('triggered login');
+      const isValidInputs = loginValidition(inputUsername, inputPass);
+      if (!isValidInputs) return;
+
+      // console.log('triggered login');
       const bodyData = {
-         username: signUpData.inputUsername,
-         pass: signUpData.inputPass,
+         username: inputUsername,
+         pass: inputPass,
       };
 
       loginUser(bodyData)
@@ -38,6 +41,7 @@ export default function BtnLogin() {
             Log In
          </button>
          {isError && <p className='text-red-700'>Error To sending Data</p>}
+         {errorMsg && <p className='text-red-700'>{errorMsg}</p>}
       </>
    );
 }

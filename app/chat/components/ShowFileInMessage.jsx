@@ -1,28 +1,15 @@
+import ShowFile from './ShowFile';
+
 export default function ShowFileInMessage({ file }) {
    console.log('file is :', file);
-   return null;
-   const { fileName, fileUrl } = file;
 
-   if (!fileUrl) return null;
+   if (!file?.fileUrl || !file) return null;
 
-   const isImage = fileUrl.split('/').includes('images');
-   const isVideo = fileUrl.split('/').includes('vid');
-   const isFile = () => {
-      if (!isImage && !isVideo) {
-         return true;
-      } else {
-         return false;
-      }
-   };
+   const { fileName, fileUrl, fileType } = file;
+
    return (
       <section>
-         {isImage && <img src={fileUrl} />}
-         {isVideo && <video src={fileUrl} controls='true' />}
-         {isFile() && (
-            <a download={fileName} target='_blank' href={fileUrl}>
-               {fileName}
-            </a>
-         )}
+         <ShowFile fileName={fileName} fileType={fileType} fileUrl={fileUrl} />
       </section>
    );
 }

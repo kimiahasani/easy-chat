@@ -19,7 +19,7 @@ export default function ChatList() {
 
    return (
       <>
-         <h1>new is here</h1>
+         <h1 >new is here</h1>
          {allPartners.map((el, idx) => (
             <section key={idx}>
                {console.log(el)}

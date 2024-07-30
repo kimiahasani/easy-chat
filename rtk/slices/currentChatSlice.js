@@ -6,6 +6,7 @@ const initialState = {
    inputMessage: '',
    chatCreated: false,
    loading: false,
+   file: { fileName: '', fileUrl: '', fileType: '' },
    partnerInfo: {
       _id: '',
       name: '',
@@ -18,6 +19,11 @@ export const currentChatSlice = createSlice({
    name: 'currentChatSlice',
    initialState,
    reducers: {
+      actCurrentFileUpdate: (state, { payload }) => {
+         state.file.fileName = payload.fileName;
+         state.file.fileType = payload.fileType;
+         state.file.fileUrl = payload.fileUrl;
+      },
       actCurrentChatHistoryUpdate: (state, { payload }) => {
          state.chatName = payload.chatName;
          state.chatId = payload.chatId;
@@ -72,6 +78,7 @@ export const currentChatSlice = createSlice({
 
 export const {
    /* insert actions name here */
+   actCurrentFileUpdate,
    actCurrentChatHistoryUpdate,
    actCurrentChatUpdate,
    actChatCreated,

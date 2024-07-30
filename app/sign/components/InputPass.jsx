@@ -3,7 +3,6 @@
 import { actInputPass } from '@/rtk/slices/signSlice';
 import { patcher } from '@/rtk/store';
 import { LabelInputClasses, inputClasses } from '@/styles/commonClasses';
-import { ChangeEvent } from 'react';
 
 export default function InputPass() {
    const getPass = (e) => {

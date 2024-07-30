@@ -8,8 +8,9 @@ import { getAllPartners } from './controller/chat/getAllPartners.js';
 import { delMessage } from './controller/messages/delMessage.js';
 import { updateMessage } from './controller/messages/updateMessage.js';
 import { seenMessage } from './controller/messages/seenMessage.js';
+import { askToAi } from './controller/ai/aslAi.js';
 
-const hostname = 'localhost'; 
+const hostname = 'localhost'; // set localhost like : bymyweb.com
 const port = 3000;
 const dev = process.env.NODE_ENV !== 'production';
 // when using middleware `hostname` and `port` must be provided below
@@ -44,11 +45,10 @@ app.prepare().then(() => {
       socket.on('new message', async ({ chatName, payMsg }) => {
          // console.log('message: ', payMsg.text);
          // save message to DB
-         const { fileName, fileUrl } = await saveMessage(payMsg);
+         const { fileName, fileUrl, fileType } = await saveMessage(payMsg);
 
-         payMsg.file = { fileName, fileUrl };
-         console.log('payMsg : ', payMsg);
-         const updateMsg = { ...payMsg, file: { fileName, fileUrl } };
+         const updateMsg = { ...payMsg, file: { fileName, fileUrl, fileType } };
+         console.log('updateMsg : ', updateMsg);
          // broadcast let us to send event to all room member except sender client
          socket.broadcast.to(chatName).emit('message to room', updateMsg);
          // console.log('onlineUsers: ', onlineUsers);
@@ -67,7 +67,7 @@ app.prepare().then(() => {
             // console.log('payMsg  :', payMsg);
             socket.to(partner).emit('to update partner list', dataToSend);
          }
-         socket.emit('message confirmation', 'sentAt');
+         // socket.emit('message confirmation', 'sentAt');
       });
 
       socket.on('current message history', async ({ userId, partnerId }) => {
@@ -95,6 +95,7 @@ app.prepare().then(() => {
          if (!delMsg) return;
 
          io.to(chatName).emit('del success notification', sentAt);
+         // socket.emit('del success notification', sentAt); // Notify the sender as well
       });
 
       socket.on('seen message', async ({ sentAt, chatId }) => {
@@ -104,6 +105,16 @@ app.prepare().then(() => {
          if (!userSender) return;
 
          socket.to(userSender).emit('seen message notification', { sentTime: sentAt });
+      });
+
+      socket.on('send prompt to ai', async ({ myPrompt, userId }) => {
+         const dataFromAi = await askToAi(myPrompt);
+         if (!dataFromAi) return;
+
+         const myself = onlineUsers[`${userId}`];
+         if (!myself) return;
+         console.log('date ok in back');
+         io.to(myself).emit('res from Ai', { dataFromAi, sender: 'ai' });
       });
    });
 

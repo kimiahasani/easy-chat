@@ -1,7 +1,7 @@
-import { NextRequest } from 'next/server';
 import { UserM } from '@/models/schemas/userSchema';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { cookies } from 'next/headers';
 
 process.loadEnvFile();
 
@@ -32,12 +32,16 @@ export const loginUser = async (req) => {
       findUser.refToken = refreshToken;
       await findUser.save();
 
+      // save jwt in cookie
       const dataToFront = JSON.stringify({
          _id: findUser._id,
          token: accessToken,
          refToken: refreshToken,
          message: 'ok',
       });
+
+      cookies().set('accessToken', accessToken);
+      cookies().set('refreshToken', refreshToken);
 
       return new Response(dataToFront, {
          status: 200,
