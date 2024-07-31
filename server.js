@@ -12,7 +12,7 @@ import { askToAi } from './controller/ai/aslAi.js';
 
 const hostname = 'localhost'; // set localhost like : bymyweb.com
 const port = 3000;
-const dev = String(process.env.NODE_ENV) !== 'production';
+const dev = process.env.NODE_ENV !== 'production';
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
@@ -20,7 +20,14 @@ const handler = app.getRequestHandler();
 app.prepare().then(() => {
    const httpServer = createServer(handler);
 
-   const io = new Server(httpServer);
+   const io = new Server(httpServer, {
+      cors: {
+         //https://easy-chat-g1hu.onrender.com
+         origin: 'https://easy-chat-g1hu.onrender.com',
+         methods: ['GET', 'POST', '*'],
+         credentials: true,
+      },
+   });
    let onlineUsers = {};
 
    io.on('connection', (socket) => {
