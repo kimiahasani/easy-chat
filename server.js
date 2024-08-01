@@ -23,7 +23,7 @@ app.prepare().then(() => {
    const io = new Server(httpServer, {
       cors: {
          //https://easy-chat-g1hu.onrender.com
-         origin: 'https://easy-chat-f6kq.onrender.com',
+         origin: ['https://easy-chat.onrender.com', 'http://localhost:3000/', '*'],
          methods: ['GET', 'POST', '*'],
          credentials: true,
       },

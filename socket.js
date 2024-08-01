@@ -1,8 +1,8 @@
 'use client';
 
 import { io } from 'socket.io-client';
-
-export const socket = io('https://easy-chat-f6kq.onrender.com', {
+// 'https://easy-chat.onrender.com'
+export const socket = io(['http://localhost:3000/', 'https://easy-chat.onrender.com', '*'], {
    reconnection: true,
    reconnectionAttempts: Infinity,
    reconnectionDelay: 1000,
