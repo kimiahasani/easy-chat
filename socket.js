@@ -2,7 +2,7 @@
 
 import { io } from 'socket.io-client';
 
-export const socket = io('https://easy-chat.onrender.com', {
+export const socket = io('https://easy-chat-f6kq.onrender.com', {
    reconnection: true,
    reconnectionAttempts: Infinity,
    reconnectionDelay: 1000,
