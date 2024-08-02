@@ -26,9 +26,10 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
-# Capstone Concept - AUTHOR NAME
+# AUTHOR NAME
 Kimia Hasani
-Project Name: Easy Chat
+# Project Name
+Easy Chat
 # Project Description: 
 A simple chat application that allows users to send messages and share multimedia files like photos, videos, and documents to each other in real-time.
   The ideal user for Easy Chat is someone who frequently communicates with friends, family, or colleagues and values real-time messaging and multimedia sharing. 
