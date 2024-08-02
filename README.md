@@ -1,6 +1,6 @@
 
 # Easy Chat
-This app was created as a Capstone project for Ada Developer Academy. The purpose of the app is to reduce trash in the environment. 
+This app was created as a Capstone project for Ada Developer Academy.
 
 <img src="/public/images/1.png" alt="Welcome" width="250" height="500">.  <img src="/public/images/2.png" alt="Chat Page" width="250" height="500">.  <img src="/public/images/3.png" alt="Chatbot" width="250" height="500">
 https://github.com/kimiahasani/easy-chat.
